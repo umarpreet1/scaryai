@@ -1,19 +1,8 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+import requests
 import random
-import onnxruntime as ort
-from  transformers import AutoConfig
-from optimum.onnxruntime import ORTModelForCausalLM
-from transformers import AutoTokenizer
-
-ort_sess = ort.InferenceSession('../model/decoder_model_quantized.onnx',providers=['CPUExecutionProvider'])
-
-config = AutoConfig.from_pretrained('../model')
-
-model = ORTModelForCausalLM(ort_sess,model_save_dir="../model/",config=config)
-
-tokenizer = AutoTokenizer.from_pretrained("gpt2-large")
 
 app = Flask(__name__)
 
@@ -24,6 +13,13 @@ def index():  # put application's code here
     prompt = random.choice(prompt_options)
     return render_template("index.html",prompt=prompt)
 
+
+def get_inference(prompt,max_new_tokens):
+    payload = {"prompt":prompt,"max_new_tokens":max_new_tokens}
+    result = requests.post('http://147.182.156.31:5000/generate',params=payload)
+    result = result.json()
+    return result['generated_sequence']
+
 @app.route('/generate',methods=['GET','POST'])
 def generate():
     prompt = request.form.get("prompt")
@@ -32,18 +28,6 @@ def generate():
     print(prompt)
     return render_template("index.html",prompt=prompt)
 
-
-def get_inference(prompt, new_tokens):
-
-    input_ids = tokenizer(prompt, return_tensors="pt").input_ids
-
-    input_ids = input_ids.to(model.device)
-
-    outputs = model.generate(input_ids, do_sample=True, max_new_tokens=new_tokens)
-
-    result = prompt = tokenizer.batch_decode(outputs, skip_special_tokens=True)[0]
-
-    return result
 
 
 if __name__ == '__main__':
