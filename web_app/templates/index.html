@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scary AI</title>
+
+
+    <style>
+        .base_container {
+            background: #080C0D;
+            height: 100%;
+            min-height: 100vh;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+
+        }
+
+        .menu {
+            background: black;
+            width: 100%;
+            height: 100px;
+            font-family: "Roboto Thin";
+            padding: 0;
+
+        }
+
+        body {
+            min-height: 100vh;
+        }
+
+        .logo {
+            color: aliceblue;
+            font-size: 40px;
+            margin-left: 150px;
+        }
+
+        .buttons {
+            width: 100px;
+            height: 30px;
+            font-size: 18px;
+            font-family: "Roboto Thin";
+
+        }
+
+        .row {
+            vertical-align: middle;
+        }
+
+        .inside_base {
+            width: 100%;
+        }
+
+        .inside {
+            width: 80%;
+            margin-top: 80px;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+
+        .console {
+            width: 100%;
+            height: 400px;
+            background-color: #A0ACAD;
+            font-size: larger;
+            font-family: 'Roboto Light';
+            resize: none;
+            text-align: left;
+            rows : 5;
+
+
+        }
+
+        .steps {
+            font-size: 30px;
+            color: #A0ACAD;
+            font-family: "Roboto Thin";
+            text-align: left;
+            margin-bottom: 40px;
+            margin-left: 20px;
+            width: 80%;
+        }
+
+    </style>
+</head>
+<body style="margin: 0;height: 100%;width: 100%">
+<div class="base_container">
+    <table class="menu">
+        <tr class="row">
+            <td>
+                <div class="logo">Scary AI</div>
+            </td>
+            <td>
+                <div style="margin-right: 30%;margin-left: auto;width: fit-content;">
+                    <a href="{{ url_for('index') }}"><button class="buttons" style="margin-right: 20px" >Home</button>
+                    </a>
+                    <button class="buttons">About</button>
+
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="inside_base">
+        <table class="inside">
+            <form action="{{ url_for('generate') }}" name="formg" id="formg" method="post">
+            <tr style="width: 80%">
+                <td style="width: 65%">
+                <textarea form="formg" id="prompt" name="prompt" class="console">{{ prompt }} </textarea>
+                </td>
+                <td>
+                    <table style="width: 100%;vertical-align: center;text-align: center">
+                        <tr>
+                            <td>
+                                <div style="font-size: 35px;color:#A0ACAD;text-align: left;margin-left: 25px">Steps to Scary Story</div>
+                                <ol type="1" class="steps">
+                                    <li>
+                                        Start with an initial sentence.
+                                    </li>
+                                    <li>
+                                        Generate sentences using Scary AI
+                                    </li>
+                                    <li>
+                                        Edit/Generate as you are going
+                                    </li>
+                                </ol>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="submit"  value="Generate" style="width: 80%;margin-bottom: 15px;height: 35px;font-size: 15px;background-color: #1d771d"/>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="{{ url_for('index') }}"> <button  style="width: 40%;height: 30px;font-size: 15px">Reset</button></a>
+
+                                <button style="width: 40%;height: 30px;font-size: 15px" disabled>Share</button>
+                            </td>
+
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+</body>
+</html>
